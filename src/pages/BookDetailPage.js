@@ -4,20 +4,23 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../apiService";
 import { Container, Button, Box, Grid, Stack, Typography } from "@mui/material";
-
+import { addToReadingList } from "../features/readingList/listSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const BACKEND_API = process.env.REACT_APP_BACKEND_API;
 
 const BookDetailPage = () => {
+  const dispatch = useDispatch();
+
   const [loading, setLoading] = useState(false);
   const [book, setBook] = useState(null);
   const [addingBook, setAddingBook] = useState(false);
   const params = useParams();
   const bookId = params.id;
 
-  const addToReadingList = (book) => {
-    setAddingBook(book);
-  };
+  // const addToReadingList = (book) => {
+  //   setAddingBook(book);
+  // };
 
   useEffect(() => {
     const postData = async () => {
@@ -51,11 +54,17 @@ const BookDetailPage = () => {
   return (
     <Container>
       {loading ? (
-        <Box sx={{ textAlign: "center", color: "primary.main" }} >
+        <Box sx={{ textAlign: "center", color: "primary.main" }}>
           <ClipLoader color="#inherit" size={150} loading={true} />
         </Box>
       ) : (
-        <Grid container spacing={2} p={4} mt={5} sx={{ border: "1px solid black" }}>
+        <Grid
+          container
+          spacing={2}
+          p={4}
+          mt={5}
+          sx={{ border: "1px solid black" }}
+        >
           <Grid item md={4}>
             {book && (
               <img
@@ -84,16 +93,19 @@ const BookDetailPage = () => {
                 <Typography variant="body1">
                   <strong>Language:</strong> {book.language}
                 </Typography>
-                <Button variant="outlined" sx={{ width: "fit-content" }} onClick={() => addToReadingList(book)}>
+                <Button
+                  variant="outlined"
+                  sx={{ width: "fit-content" }}
+                  onClick={() => dispatch(addToReadingList(book))}
+                >
                   Add to Reading List
                 </Button>
               </Stack>
             )}
           </Grid>
         </Grid>
-      )
-      }
-    </Container >
+      )}
+    </Container>
   );
 };
 
