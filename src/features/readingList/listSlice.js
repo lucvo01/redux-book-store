@@ -56,22 +56,22 @@ export const listSlice = createSlice({
         state.error = action.error.message;
       });
 
-    // builder
-    //   .addCase(removeBook.pending, (state) => {
-    //     state.status = "loading";
-    //   })
-    //   .addCase(removeBook.fulfilled, (state, action) => {
-    //     const removedBookId = action.payload;
-    //     console.log("test", state);
-    //     state.favorites = state.favorites.filter(
-    //       (book) => book.id !== removedBookId
-    //     );
-    //     state.favorites = [...state.favorites];
-    //   })
-    //   .addCase(removeBook.rejected, (state, action) => {
-    //     state.status = "failed";
-    //     state.error = action.error.message;
-    //   });
+    builder
+      .addCase(removeBook.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(removeBook.fulfilled, (state, action) => {
+        const removedBookId = action.payload;
+        console.log("test", state);
+        state.favorites = state.favorites.filter(
+          (book) => book.id !== removedBookId
+        );
+        state.favorites = [...state.favorites];
+      })
+      .addCase(removeBook.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      });
   }
 });
 
