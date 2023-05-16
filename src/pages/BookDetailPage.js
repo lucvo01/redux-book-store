@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import api from "../apiService";
 import { Container, Button, Box, Grid, Stack, Typography } from "@mui/material";
 import { addToReadingList } from "../features/readingList/listSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const BACKEND_API = process.env.REACT_APP_BACKEND_API;
 
@@ -14,7 +14,7 @@ const BookDetailPage = () => {
 
   const [loading, setLoading] = useState(false);
   const [book, setBook] = useState(null);
-  const [addingBook, setAddingBook] = useState(false);
+  // const [addingBook, setAddingBook] = useState(false);
   const params = useParams();
   const bookId = params.id;
 
@@ -96,9 +96,12 @@ const BookDetailPage = () => {
                 <Button
                   variant="outlined"
                   sx={{ width: "fit-content" }}
-                  onClick={() => {
+                  onClick={async () => {
                     console.log(book);
-                    dispatch(addToReadingList(book));
+                    await dispatch(addToReadingList(book));
+                    toast.success(
+                      "The book has been added to the reading list!"
+                    );
                   }}
                 >
                   Add to Reading List

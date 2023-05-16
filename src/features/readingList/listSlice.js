@@ -5,17 +5,7 @@ const initialState = {
   favorites: [],
   books: []
 };
-// {
-//   // author: "",
-//   // country: "",
-//   // imageLink: "",
-//   // language: "",
-//   // link: "",
-//   // pages: null,
-//   // title: "",
-//   // year: null,
-//   // id: ""
-// }
+
 export const addToReadingList = createAsyncThunk("/favorites", async (book) => {
   console.log("action", book);
   const response = await apiService.post(`/favorites`, book);
@@ -34,7 +24,13 @@ export const removeBook = createAsyncThunk(
 
 export const getFavoriteBooks = createAsyncThunk("/favorites", async () => {
   const response = await apiService.get("/favorites");
-  console.log("books", response.data);
+  console.log("fav books", response.data);
+  return response.data;
+});
+
+export const getBooks = createAsyncThunk("/books", async (url) => {
+  const response = await apiService.get(url);
+  console.log("all books", response.data);
   return response.data;
 });
 
@@ -43,6 +39,18 @@ export const listSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(getBooks.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getBooks.fulfilled, (state, action) => {
+        state.books = action.payload;
+      })
+      .addCase(getBooks.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      });
+
     builder
       .addCase(getFavoriteBooks.pending, (state) => {
         state.status = "loading";

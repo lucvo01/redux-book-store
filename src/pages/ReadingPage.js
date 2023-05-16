@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Container,
   Button,
@@ -13,7 +13,7 @@ import {
 import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import api from "../apiService";
+// import api from "../apiService";
 import {
   removeBook,
   getFavoriteBooks
@@ -27,7 +27,7 @@ const ReadingPage = () => {
   const favorites = useSelector((state) => state.list.favorites);
 
   // const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   // const [removedBookId, setRemovedBookId] = useState("");
   const navigate = useNavigate();
 
@@ -35,14 +35,16 @@ const ReadingPage = () => {
     navigate(`/books/${bookId}`);
   };
 
-  const handleClickRemove = (bookId) => {
-    dispatch(removeBook(bookId));
+  const handleClickRemove = async (bookId) => {
+    await dispatch(removeBook(bookId));
+    toast.success("The book has been removed");
     dispatch(getFavoriteBooks());
   };
 
   useEffect(() => {
-    dispatch(getFavoriteBooks());
+    dispatch(getFavoriteBooks("/favorites"));
   }, [dispatch]);
+
   // useEffect(() => {
   //   if (removedBookId) return;
   //   const fetchData = async () => {
