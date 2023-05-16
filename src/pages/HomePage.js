@@ -17,10 +17,14 @@ import {
   Typography,
   CardContent
 } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 
 const BACKEND_API = process.env.REACT_APP_BACKEND_API;
 
 const HomePage = () => {
+  const dispatch = useDispatch();
+  // const books = useSelector((state) => state.books);
+
   const [books, setBooks] = useState([]);
   const [pageNum, setPageNum] = useState(1);
   const totalPage = 10;

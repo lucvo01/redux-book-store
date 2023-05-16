@@ -22,20 +22,20 @@ const BookDetailPage = () => {
   //   setAddingBook(book);
   // };
 
-  useEffect(() => {
-    const postData = async () => {
-      if (!addingBook) return;
-      setLoading(true);
-      try {
-        await api.post(`/favorites`, addingBook);
-        toast.success("The book has been added to the reading list!");
-      } catch (error) {
-        toast.error(error.message);
-      }
-      setLoading(false);
-    };
-    postData();
-  }, [addingBook]);
+  // useEffect(() => {
+  //   const postData = async () => {
+  //     if (!addingBook) return;
+  //     setLoading(true);
+  //     try {
+  //       await api.post(`/favorites`, addingBook);
+  //       toast.success("The book has been added to the reading list!");
+  //     } catch (error) {
+  //       toast.error(error.message);
+  //     }
+  //     setLoading(false);
+  //   };
+  //   postData();
+  // }, [addingBook]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -96,7 +96,10 @@ const BookDetailPage = () => {
                 <Button
                   variant="outlined"
                   sx={{ width: "fit-content" }}
-                  onClick={() => dispatch(addToReadingList(book))}
+                  onClick={() => {
+                    console.log(book);
+                    dispatch(addToReadingList(book));
+                  }}
                 >
                   Add to Reading List
                 </Button>
